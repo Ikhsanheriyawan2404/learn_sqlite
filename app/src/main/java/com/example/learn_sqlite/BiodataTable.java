@@ -56,6 +56,11 @@ public class BiodataTable extends SQLiteOpenHelper {
         Toast.makeText(context, "Data Updated!", Toast.LENGTH_SHORT).show();
     }
 
+    void delete_data(String id)
+    {
+        database.execSQL("DELETE FROM " + table_name + " WHERE id = '"+id+"'");
+        Toast.makeText(context, "Data Deleted!", Toast.LENGTH_SHORT).show();
+    }
     Cursor show_data()
     {
         Cursor cursor = database.rawQuery("SELECT * FROM " + table_name, null);

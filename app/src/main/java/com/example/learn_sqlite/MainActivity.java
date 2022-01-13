@@ -1,8 +1,11 @@
 package com.example.learn_sqlite;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0,0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -54,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         get_data();
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+        super.onBackPressed();
+    }
+
     void get_data()
     {
         list = new ArrayList<Object>();
@@ -69,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         address
                 ));
             }
-            adapter = new Custome_adapter(getApplicationContext(), list);
+            adapter = new Custome_adapter(getApplicationContext(), list, MainActivity.this);
             listview.setAdapter(adapter);
         }
     }
@@ -77,14 +87,18 @@ public class MainActivity extends AppCompatActivity {
 
 class Custome_adapter extends BaseAdapter {
 
+    Activity activity;
+    BiodataTable biodataTable;
     Context context;
     LayoutInflater layoutInflater;
     ArrayList<Object> model;
 
-    public Custome_adapter(Context context, ArrayList<Object> list) {
+    public Custome_adapter(Context context, ArrayList<Object> list, Activity activity) {
         this.context = context;
         this.model = list;
+        this.activity = activity;
         layoutInflater = LayoutInflater.from(context);
+        biodataTable = new BiodataTable(context);
     }
 
     @Override
@@ -135,7 +149,27 @@ class Custome_adapter extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "Data deleted!",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Warning");
+                builder.setMessage("Are you sure want to delete this?");
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        biodataTable.delete_data(model.get(position).getId());
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         return view1;
