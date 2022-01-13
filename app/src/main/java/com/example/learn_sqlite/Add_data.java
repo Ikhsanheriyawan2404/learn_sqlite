@@ -28,6 +28,7 @@ public class Add_data extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 save_data();
+                finish();
             }
         });
     }

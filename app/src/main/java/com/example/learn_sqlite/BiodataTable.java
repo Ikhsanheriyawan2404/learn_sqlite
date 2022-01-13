@@ -47,6 +47,15 @@ public class BiodataTable extends SQLiteOpenHelper {
         Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show();
     }
 
+    void update_data(String id, String name, String address)
+    {
+        database.execSQL(
+                "UPDATE " + table_name + " SET name = '"+name+"', address = '"+address+"'" +
+                        " WHERE id = '"+id+"'"
+        );
+        Toast.makeText(context, "Data Updated!", Toast.LENGTH_SHORT).show();
+    }
+
     Cursor show_data()
     {
         Cursor cursor = database.rawQuery("SELECT * FROM " + table_name, null);

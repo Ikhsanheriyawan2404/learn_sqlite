@@ -37,12 +37,20 @@ public class MainActivity extends AppCompatActivity {
         listview = findViewById(R.id.listview);
         add_data = findViewById(R.id.add_data);
 
+        biodataTable = new BiodataTable(getApplicationContext());
+
         add_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Add_data.class));
             }
         });
+        get_data();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         get_data();
     }
 
@@ -75,7 +83,7 @@ class Custome_adapter extends BaseAdapter {
 
     public Custome_adapter(Context context, ArrayList<Object> list) {
         this.context = context;
-        this.model = model;
+        this.model = list;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -116,9 +124,9 @@ class Custome_adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Edit_data.class);
+                intent.putExtra("id", model.get(position).getId());
                 intent.putExtra("name", model.get(position).getName());
                 intent.putExtra("address", model.get(position).getAddress());
-                intent.putExtra("id", model.get(position).getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

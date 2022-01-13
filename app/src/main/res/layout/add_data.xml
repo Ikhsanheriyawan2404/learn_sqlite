@@ -24,7 +24,7 @@
         android:layout_height="20dp"/>
 
     <TextView
-        android:text="Name"
+        android:text="Address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
@@ -32,8 +32,10 @@
         android:hint="Input Address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button android:text="Save"
-        android:layout_width="match_parent" android:id="@+id/save"
+    <Button
+        android:id="@+id/save"
+        android:text="Save"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

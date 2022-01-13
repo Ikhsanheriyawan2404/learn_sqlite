@@ -10,8 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Learn_sqlite">
         <activity
-            android:name=".Add_data"
+            android:name=".Edit_data"
             android:exported="true" />
+        <activity
+            android:name=".Add_data"
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
